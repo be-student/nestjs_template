@@ -40,12 +40,3 @@ lerna-debug.log*
 .env.development
 
 config/
-
-# yarn2
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
