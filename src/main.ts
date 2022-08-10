@@ -1,10 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+// import * as cookieParser from 'cookie-parser';
+// import * as csurf from 'csurf';
 import { AppModule } from './app.module';
 import { setupSwagger } from './core/swagger';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -15,7 +15,10 @@ async function bootstrap() {
     }),
   );
   setupSwagger(app);
+  app.enableCors();
 
+  // app.use(cookieParser());
+  // app.use(csurf({ cookie: true }));
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
 
