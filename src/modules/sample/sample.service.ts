@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSampleDto } from './dto/create-sample.dto';
-import { UpdateSampleDto } from './dto/update-sample.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Sample } from './entities';
 
 @Injectable()
 export class SampleService {
-  create(createSampleDto: CreateSampleDto) {
+  constructor(
+    @InjectRepository(Sample) private sampleRepository: Repository<Sample>,
+  ) {}
+
+  async create() {
+    const sampleUser = new Sample();
+    sampleUser.firstName = 'sample';
+    sampleUser.lastName = 'user';
+    await this.sampleRepository.save(sampleUser);
     return 'This action adds a new sample';
   }
 
-  findAll() {
-    return `This action returns all sample`;
+  async findAll() {
+    const sampleUsers = await this.sampleRepository.find();
+    return JSON.stringify(sampleUsers);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sample`;
+  async findOne(id: number) {
+    const sampleUser = await this.sampleRepository.findOne({
+      where: { id: id },
+    });
+    return sampleUser;
   }
 
-  update(id: number, updateSampleDto: UpdateSampleDto) {
-    return `This action updates a #${id} sample`;
-  }
-
-  remove(id: number) {
+  async remove(id: number) {
+    await this.sampleRepository.delete({ id: id });
     return `This action removes a #${id} sample`;
   }
 }
