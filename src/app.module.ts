@@ -1,5 +1,7 @@
 import { ApiModule } from '@modules/api.module';
 import { Sample } from '@modules/sample/entities';
+import { SampleMany } from '@modules/sample/entities/sampleMany.entity';
+import { SampleOne } from '@modules/sample/entities/sampleOne.entity';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -31,7 +33,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: configService.get('DBUSERNAME'),
         password: configService.get('DBPASSWORD'),
         database: configService.get('DBDATABASE'),
-        entities: [Sample],
+        entities: [Sample, SampleOne, SampleMany],
         synchronize: true,
       }),
     }),
