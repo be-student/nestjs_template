@@ -11,16 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: '.env',
       cache: true,
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'Mypresentsong1',
-    //   database: 'toss',
-    //   entities: [Sample],
-    //   synchronize: true,
-    // }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

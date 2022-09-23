@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 // import * as cookieParser from 'cookie-parser';
-// import * as csurf from 'csurf';
+import * as Sentry from '@sentry/node';
 import { AppModule } from './app.module';
 import { setupSwagger } from './core/swagger';
 async function bootstrap() {
@@ -15,11 +15,12 @@ async function bootstrap() {
     }),
   );
   setupSwagger(app);
+
   app.enableCors();
 
   // app.use(cookieParser());
-  // app.use(csurf({ cookie: true }));
   const configService = app.get(ConfigService);
+  Sentry.init({ dsn: configService.get<string>('SENTRY_DSN') });
   const port = configService.get<number>('PORT') || 3000;
 
   await app.listen(port, () => {
