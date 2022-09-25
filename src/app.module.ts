@@ -4,6 +4,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from '@adminjs/nestjs';
+import AdminJS from 'adminjs';
+import * as AdminJSTypeorm from '@adminjs/typeorm';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -16,6 +18,11 @@ const authenticate = async (email: string, password: string) => {
   }
   return null;
 };
+
+AdminJS.registerAdapter({
+  Resource: AdminJSTypeorm.Resource,
+  Database: AdminJSTypeorm.Database,
+});
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -42,7 +49,7 @@ const authenticate = async (email: string, password: string) => {
       useFactory: () => ({
         adminJsOptions: {
           rootPath: '/admin',
-          resources: [],
+          resources: [Sample],
         },
         auth: {
           authenticate,
